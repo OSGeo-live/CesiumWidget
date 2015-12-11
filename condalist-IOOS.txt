@@ -6,3 +6,4 @@ geopandas
 mpld3
 mplleaflet
 oct2py
+owslib

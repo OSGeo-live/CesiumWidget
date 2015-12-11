@@ -7,13 +7,17 @@ RUN apt-get update && apt-get install -y postgis \
                        postgresql-9.4 \
                        postgresql-client-9.4 \
                        postgresql-contrib-9.4 \
-                       postgresql-9.4-postgis-2.1
+                       postgresql-9.4-postgis-2.1 \
+                       ossim-core grass-core
 
 RUN echo "root:root" | chpasswd
 RUN echo "main:main" | chpasswd
 
 
 USER main
+
+RUN conda update conda
+RUN conda install anaconda=2.4.1
 
 # install demo support
 RUN conda install \
@@ -46,6 +50,14 @@ RUN jupyter nbextension install CesiumWidget/static/CesiumWidget --user --quiet
 
 ADD condalist.txt /tmp/condalist.txt
 RUN conda install -y --file /tmp/condalist.txt
+RUN conda install -y -n python3 --file /tmp/condalist.txt
+
 
 ADD condalist-IOOS.txt /tmp/condalist-IOOS.txt
 RUN conda install -y -c IOOS --file /tmp/condalist-IOOS.txt
+RUN conda install -y -c IOOS -n python3 --file /tmp/condalist-IOOS.txt
+
+COPY GSOC /home/main/notebooks/GSOC
+
+ADD getdata.sh /tmp/getdata.sh
+RUN bash /tmp/getdata.sh

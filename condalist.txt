@@ -13,3 +13,6 @@ psycopg2
 pyproj
 psutil
 pillow
+gdal
+pyproj
+netCDF4
