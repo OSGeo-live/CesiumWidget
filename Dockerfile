@@ -2,6 +2,13 @@ FROM andrewosh/binder-base
 
 USER root
 
+RUN apt-get update && apt-get install -y postgis \
+                       postgresql-contrib \
+                       postgresql-9.4 \
+                       postgresql-client-9.4 \
+                       postgresql-contrib-9.4 \
+                       postgresql-9.4-postgis-2.1
+
 RUN echo "root:root" | chpasswd
 RUN echo "main:main" | chpasswd
 
@@ -35,3 +42,10 @@ RUN /home/main/anaconda/envs/python3/bin/python setup.py install
 # jupyter-pip so crazy. this is cheating, as a real user wouldn't have
 # the source checked out...
 RUN jupyter nbextension install CesiumWidget/static/CesiumWidget --user --quiet
+
+
+ADD condalist.txt /tmp/condalist.txt
+RUN conda install -y --file /tmp/condalist.txt
+
+ADD condalist-IOOS.txt /tmp/condalist-IOOS.txt
+RUN conda install -y -c IOOS --file /tmp/condalist-IOOS.txt

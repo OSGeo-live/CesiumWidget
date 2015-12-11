@@ -1,0 +1,8 @@
+qrcode
+cartopy
+pyepsg
+folium
+geopandas
+mpld3
+mplleaflet
+oct2py
