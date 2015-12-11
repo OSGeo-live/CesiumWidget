@@ -34,7 +34,7 @@ RUN /home/main/anaconda/envs/python3/bin/pip install \
     ipywidgets
 
 
-#RUN git clone https://github.com/petrushy/CesiumWidget.git --depth=1
+#RUN git clone https://github.com/epifanio/CesiumWidget.git --depth=1
 RUN git clone  https://github.com/OSGeo-live/CesiumWidget --depth=1
 
 
@@ -57,7 +57,8 @@ ADD condalist-IOOS.txt /tmp/condalist-IOOS.txt
 RUN conda install -y -c IOOS --file /tmp/condalist-IOOS.txt
 RUN conda install -y -c IOOS -n python3 --file /tmp/condalist-IOOS.txt
 
+ADD getdata.sh /tmp/getdata.sh
+RUN /tmp/getdata.sh
+
 COPY GSOC /home/main/notebooks/GSOC
 
-RUN wget http://epinux.com/data.tar.gz
-RUN tar xvf data.tar.gz
