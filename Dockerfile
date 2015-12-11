@@ -59,5 +59,5 @@ RUN conda install -y -c IOOS -n python3 --file /tmp/condalist-IOOS.txt
 
 COPY GSOC /home/main/notebooks/GSOC
 
-#ADD getdata.sh /tmp/getdata.sh
-#RUN bash /tmp/getdata.sh
+RUN wget http://epinux.com/data.tar.gz
+RUN tar xvf data.tar.gz
