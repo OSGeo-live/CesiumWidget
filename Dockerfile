@@ -47,7 +47,6 @@ RUN /home/main/anaconda/envs/python3/bin/python setup.py install
 # the source checked out...
 RUN jupyter nbextension install CesiumWidget/static/CesiumWidget --user --quiet
 
-
 ADD condalist.txt /tmp/condalist.txt
 RUN conda install -y --file /tmp/condalist.txt
 RUN conda install -y -n python3 --file /tmp/condalist.txt
@@ -61,4 +60,16 @@ ADD getdata.sh /tmp/getdata.sh
 RUN /tmp/getdata.sh
 
 COPY GSOC /home/main/notebooks/GSOC
+
+# setup postgresql
+USER postgres
+
+# start db and make new user and db (osgeo) listening from all host
+RUN /etc/init.d/postgresql start &&\
+    psql --command "CREATE USER main WITH SUPERUSER PASSWORD 'main';" &&\
+    createdb -O main main
+
+# add naturalhear data into postgis
+ADD natualearth.sh /tmp/natualearth.sh
+RUN /tmp/natualearth.sh
 
