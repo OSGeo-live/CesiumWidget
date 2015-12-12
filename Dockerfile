@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y postgis \
 RUN echo "root:root" | chpasswd
 RUN echo "main:main" | chpasswd
 
+ADD pgstart.sh /usr/local/bin/pgstart.sh
 
 USER main
 
@@ -73,3 +74,7 @@ RUN /etc/init.d/postgresql start &&\
 ADD natualearth.sh /tmp/natualearth.sh
 RUN /tmp/natualearth.sh
 
+RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.4/main/pg_hba.conf
+RUN echo "listen_addresses='*'" >> /etc/postgresql/9.4/main/postgresql.conf
+
+EXPOSE 5432
